@@ -1,0 +1,30 @@
+<h2>
+listing
+</h2>
+
+<a href="#/countries/gb">go to detail</a>
+<div ng-controller="CountriesCtrl">
+  <div class="centered">
+    <table>
+      <tr>
+        <td>Country Name</td>
+        <td>Code</td>
+        <td>Capital</td>
+        <td>Area in qm2</td>
+        <td>Population</td>
+        <td>Continent</td>
+      </tr>
+
+
+      <tr ng-repeat="country in countries.geonames">
+          <td><a href="#/countries/{{country.countryCode}}">{{country.countryName}}</a></td>
+          <td><a href="#/countries/{{country.countryCode}}">{{country.countryCode}}</a></td>
+          <td><a href="#/countries/{{country.countryCode}}">{{country.capital}}</a></td>
+          <td><a href="#/countries/{{country.countryCode}}">{{country.areaInSqKm}}</a></td>
+          <td><a href="#/countries/{{country.countryCode}}">{{country.population}}</a></td>
+          <td><a href="#/countries/{{country.countryCode}}">{{country.continentName}}</a></td>
+      </tr>
+
+    </table>
+  </div>
+</div>

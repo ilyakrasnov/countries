@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <!-- meta content -->
+        <meta charset="utf-8">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>C's & C's</title>
+        <!-- build:css ../build/css/app.min.css -->
+        <link rel="stylesheet" href="css/app.css">
+        <!-- endbuild -->
+    </head>
+    <body ng-app="countriesApp">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a                        href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+        <![endif]-->
+        <!-- wrapper -->
+        <div class="header">
+          <h1 class="centered">C's & C's</h1>
+        </div>
+        <div ng-view></div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.2/underscore-min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.js"></script>
+        <!-- build:js ../build/js/app.min.js -->
+        <script src="js/app.js"></script>
+        <script src="js/services.js"></script>
+        <script src="js/controllers.js"></script>
+        <script src="js/filters.js"></script>
+        <script src="js/directives.js"></script>
+        <!-- endbuild -->
+
+        <script>
+        // angular.module('countriesApp', [])
+        //     .controller('CountriesCtrl', ['', function(){
+        //         $scope.countries = null;
+        //     }])
+        // </script>
+    </body>
+</html>

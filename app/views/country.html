@@ -1,0 +1,45 @@
+<h2>
+c
+</h2>
+
+<div ng-controller="CountryCtrl">
+  <div class="centered">
+  <h1>{{ country.countryName }}</h1>
+    <table>
+      <tr>
+        <td>Population</td>
+        <td>{{ country.population }}</td>
+      </tr>
+      <tr>
+        <td>Area</td>
+        <td>{{ country.areaInSqKm}}</td>
+      </tr>
+      <tr>
+        <td>Capital</td>
+        <td>{{ country.capital }}</td>
+      </tr>
+      <tr>
+        <td>Population of Capital</td>
+        <td>{{ capital.population }}</td>
+      </tr>
+      <tr>
+        <td>{{country.neighbours.size()}} Neihbours</td>
+        <td ng-repeat="neighbour in neighbours" >
+
+              <a href="#/countries/{{neighbour.countryCode}}">{{neighbour.countryName}}</a>
+
+        </td>
+      </tr>
+    </table>
+
+    <!-- TODO: User image laoder service -->
+    <img class="flag" src="http://www.geonames.org/flags/x/{{country.countryCode | lowercase }}.gif" />
+    <img class="map" id='myImage' src="http://www.geonames.org/img/country/250/{{country.countryCode | uppercase }}.png" />
+
+    <div class="btn_row">
+      <div class="btn"><a href="#/">Home</a></div>
+      <div class="btn"><a href="#/countries">Browse Countries</a></div>
+    </div>
+
+  </div>
+</div>
