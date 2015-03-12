@@ -8,11 +8,11 @@ c
     <table>
       <tr>
         <td>Population</td>
-        <td>{{ country.population }}</td>
+        <td>{{ country.population | number:0 }}</td>
       </tr>
       <tr>
         <td>Area</td>
-        <td>{{ country.areaInSqKm}}</td>
+        <td>{{ country.areaInSqKm | number:0 }} square km</td>
       </tr>
       <tr>
         <td>Capital</td>
@@ -20,7 +20,7 @@ c
       </tr>
       <tr>
         <td>Population of Capital</td>
-        <td>{{ capital.population }}</td>
+        <td>{{ capital.population | number:0 }}</td>
       </tr>
       <tr>
         <td>{{country.neighbours.size()}} Neihbours</td>
