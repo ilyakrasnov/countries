@@ -17,7 +17,25 @@ app.config(['$routeProvider', function ($routeProvider) {
         })
         .when('/countries/:country', {
             templateUrl: 'views/country.html',
-            controller: 'CountryCtrl'
+            controller: 'CountryCtrl',
+            resolve: {
+                country: function($route, countriesService, capitalService){
+                    // console.log($route.current.params.country);
+                    return countriesService.getData().then(function(dataResponse){
+                        return _.where(dataResponse.data.geonames, {countryCode: $route.current.params.country})[0];
+                    })
+                    .then(function(country){
+                        return capitalService.getData(country.capital, country.countryCode)
+                            .then(function(dataResponse){
+                                country.capital_information = dataResponse.data.geonames[0]
+                                return country;
+                            });
+                    });
+                },
+                neighbours: function($route, neighboursService){
+                    return neighboursService.getData($route.current.params.country);
+                }
+            }
         })
         .otherwise({
             redirectTo: '/'
@@ -30,7 +48,8 @@ app.config(['$routeProvider', function ($routeProvider) {
         return $http({
             method: 'GET',
             url: 'http://api.geonames.org/countryInfo',
-            params: {username: 'ilad', type: 'JSON'}
+            params: {username: 'ilad', type: 'JSON'},
+            cache: true
          });
      }
     })
@@ -52,53 +71,22 @@ app.config(['$routeProvider', function ($routeProvider) {
          });
      }
     })
-    .service('neighborursService', function($http) {
+    .service('neighboursService', function($http) {
     delete $http.defaults.headers.common['X-Requested-With'];
-    this.getData = function(geonameId) {
+    this.getData = function(countryCode) {
         // $http() returns a $promise that we can add handlers with .then()
         return $http({
             method: 'GET',
             url: 'http://api.geonames.org/neighbours',
-            params: {username: 'ilad', geonameId: geonameId, type: 'JSON' }
-         });
+            params: {username: 'ilad', country: countryCode, type: 'JSON' }
+         })
+        .then(function(dataResponse){
+            return dataResponse.data.geonames;
+        });
      }
     })
-    // .service('flagService', function($http) {
-    // delete $http.defaults.headers.common['X-Requested-With'];
-    // this.getData = function(countryCode) {
-    //     // $http() returns a $promise that we can add handlers with .then()
-    //     return $http({
-    //         method: 'GET',
-    //         url: 'http://www.geonames.org/flags/x/'+countryCode.toLowerCase()+'.gif'
-    //      });
-    //  }
-    // })
-    // .service('mapService', function($http) {
-    // delete $http.defaults.headers.common['X-Requested-With'];
-    // this.getData = function(countryCode) {
-    //     // $http() returns a $promise that we can add handlers with .then()
-    //     return $http({
-    //         method: 'GET',
-    //         url: 'http://www.geonames.org/img/country/250/'+countryCode.toUpperCase()+'.png'
-    //      });
-    //  }
-    // })
-    .controller('CountryCtrl', function($scope, $routeParams, countriesService, capitalService, neighborursService) {
-        $scope.country = null;
-
-        countriesService.getData().then(function(dataResponse) {
-            $scope.country = _.where(dataResponse.data.geonames, {countryCode: $routeParams.country})[0];
-
-            // TODO: pass city and country dynamically
-            // capitalService.getData($routeParams.country.capital, $routeParams.countryName).then(function(dataResponse) {
-            capitalService.getData($scope.country.capital, $scope.country.countryCode).then(function(dataResponse) {
-                $scope.capital = dataResponse.data.geonames[0];
-
-                //TODO: make a separate function and call it from here
-                neighborursService.getData($scope.country.geonameId).then(function(dataResponse){
-                    $scope.neighbours = dataResponse.data.geonames;
-                });
-            });
-
-        });
+    .controller('CountryCtrl', function($scope, country, neighbours) {
+        $scope.country = country;
+        $scope.neighbours = neighbours;
+        $scope.capital = country.capital_information;
     });
